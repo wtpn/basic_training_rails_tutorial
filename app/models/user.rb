@@ -38,6 +38,11 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
+  # 試作feed
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   # ---------------演習---------------
 
   # def self.digest(string)
