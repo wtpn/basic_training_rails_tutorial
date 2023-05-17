@@ -47,7 +47,13 @@ class User < ApplicationRecord
 
   # 試作feed
   def feed
-    Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
+    following_ids = "SELECT followed_id FROM relationships WHERE follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids}) OR user_id = :user_id", user_id: id)
+
+    # 演習
+    # Micropost.where("user_id IN (?)", following_ids)
+    # Micropost.where("user_id = ?", id)
+    # Micropost.all
   end
 
   # ユーザーをフォローする
